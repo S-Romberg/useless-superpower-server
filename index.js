@@ -35,23 +35,16 @@ app.put('/:id', (req, res, next) => {
     var { id } = req.params
     var { body } = req
 
-    var newArr = data.map(obj => {
-       if(id == obj.id){
-           obj.superpower = body.superpower
-       } 
-       return obj
-    })
-    data = newArr
-    res.send({ data })
+    queries.update(id, body).then(superpower => {
+        res.json({superpower: superpower[0]});
+    }).catch(next);
 })
 
 app.delete('/:id', (req, res) => {
     var { id } = req.params
-    var mapped = data.filter(obj => {
-        return obj.id != id
-    })
-    data = mapped
-    res.send({ data })
+    queries.delete(id).then(() => {
+        res.status(204).json({deleted: true});
+    }).catch(next);
 })
 
 app.use(notFound)
