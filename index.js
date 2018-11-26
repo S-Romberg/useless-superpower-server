@@ -20,14 +20,14 @@ app.get('/', (req, res, next) => {
 app.get('/:id', (req, res, next) => {
     var { id } = req.params
     queries.read(id).then(superpower => {
-        superpower ? response.json({ superpower }) : next()
+        superpower ? res.json({ superpower }) : next()
     }).catch(next)
 })
 
 app.post('/', (req, res, next) => {
     var { body } = req
     queries.create(body).then(superpower => {
-        response.status(201).json({ superpower })
+        res.status(201).json({ superpower })
     }).catch(next)
 })
 
